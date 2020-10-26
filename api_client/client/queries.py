@@ -6,15 +6,16 @@ from .models import db, t_prices, Port, Region
 
 
 def _prepare_port_subquery(parent_region, cte_name):
-    topq = db.session.query(Region)
-    topq = topq.filter(Region.slug == parent_region)
-    topq = topq.cte(cte_name, recursive=True)
+    query_top = db.session.query(Region)
+    query_top = query_top.filter(Region.slug == parent_region)
+    query_top = query_top.cte(cte_name, recursive=True)
 
-    bottomq = db.session.query(Region)
-    bottomq = bottomq.join(topq, Region.parent_slug == topq.c.slug)
+    query_bottom = db.session.query(Region)
+    query_bottom = query_bottom.join(query_top, Region.parent_slug == query_top.c.slug)
 
-    recursive_q = topq.union(bottomq)
+    recursive_q = query_top.union(query_bottom)
     q = db.session.query(recursive_q).subquery()
+
     return db.session.query(Port.code).join(q, Port.parent_slug == q.c.slug).subquery()
 
 

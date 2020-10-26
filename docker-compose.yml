@@ -6,7 +6,7 @@ services:
     volumes:
       - ./api_client:/usr/src/app
     ports:
-      - 5000:5000
+      - 80:5000
 
   pgsql:
     build: .

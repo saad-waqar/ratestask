@@ -1,3 +1,4 @@
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Date, ForeignKey, Integer, Text
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import relationship
@@ -5,7 +6,6 @@ from sqlalchemy.orm import relationship
 from .settings import DATABASE
 from . import app
 
-from flask_sqlalchemy import SQLAlchemy
 
 app.config["SQLALCHEMY_DATABASE_URI"] = URL(**DATABASE)
 db = SQLAlchemy(app)
