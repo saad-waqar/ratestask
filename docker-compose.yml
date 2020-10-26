@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  flask-app:
+    build: ./api_client
+    volumes:
+      - ./api_client:/usr/src/app
+    ports:
+      - 5000:5000
+
+  pgsql:
+    build: .
+    ports:
+    - 5432:5432
+    hostname: pgsql
